@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log Entry - Where's Matt</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: #f5f5f0;
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+        padding: 24px;
+        width: 100%;
+        max-width: 420px;
+        margin-top: 20px;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+        color: #2d5016;
+        margin-bottom: 16px;
+      }
+
+      h2 {
+        font-size: 1.1rem;
+        color: #2d5016;
+        margin-bottom: 12px;
+      }
+
+      label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 4px;
+        margin-top: 12px;
+      }
+
+      label:first-of-type {
+        margin-top: 0;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      input[type="date"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: inherit;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #2d5016;
+        box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.2);
+      }
+
+      .row {
+        display: flex;
+        gap: 12px;
+      }
+
+      .row > div {
+        flex: 1;
+      }
+
+      button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: inherit;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .btn-primary {
+        background: #2d5016;
+        color: white;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      .btn-primary:hover {
+        background: #3a6b1e;
+      }
+
+      .btn-primary:disabled {
+        background: #999;
+        cursor: not-allowed;
+      }
+
+      .btn-secondary {
+        background: #e8e8e8;
+        color: #333;
+        font-size: 0.85rem;
+        padding: 8px 12px;
+        margin-top: 8px;
+      }
+
+      .btn-secondary:hover {
+        background: #ddd;
+      }
+
+      .btn-danger {
+        background: none;
+        color: #999;
+        font-size: 0.8rem;
+        padding: 4px 0;
+        margin-top: 16px;
+        text-decoration: underline;
+      }
+
+      .btn-danger:hover {
+        color: #c00;
+      }
+
+      #status {
+        margin-top: 16px;
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        display: none;
+      }
+
+      #status.success {
+        display: block;
+        background: #e8f5e9;
+        color: #2d5016;
+        border: 1px solid #a5d6a7;
+      }
+
+      #status.error {
+        display: block;
+        background: #fce4ec;
+        color: #b71c1c;
+        border: 1px solid #ef9a9a;
+      }
+
+      #status.info {
+        display: block;
+        background: #e3f2fd;
+        color: #1565c0;
+        border: 1px solid #90caf9;
+      }
+
+      .hint {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 4px;
+      }
+
+      .gps-status {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Where's Matt — Log Entry</h1>
+
+      <!-- Token Setup -->
+      <div id="token-section">
+        <h2>GitHub Token Setup</h2>
+        <p class="hint" style="margin-bottom: 12px">
+          Create a
+          <a
+            href="https://github.com/settings/personal-access-tokens/new"
+            target="_blank"
+            >fine-grained PAT</a
+          >
+          scoped to the WheresMatt repo with Contents read/write permission.
+        </p>
+        <label for="token-input">Personal Access Token</label>
+        <input
+          type="password"
+          id="token-input"
+          placeholder="github_pat_..."
+        />
+        <button class="btn-primary" onclick="saveToken()">Save Token</button>
+      </div>
+
+      <!-- Entry Form -->
+      <div id="form-section" style="display: none">
+        <h2>New Entry</h2>
+
+        <label for="date-input">Date</label>
+        <input type="date" id="date-input" />
+
+        <div class="row">
+          <div>
+            <label for="lat-input">Latitude</label>
+            <input
+              type="text"
+              id="lat-input"
+              placeholder="39.3254"
+              inputmode="decimal"
+            />
+          </div>
+          <div>
+            <label for="lng-input">Longitude</label>
+            <input
+              type="text"
+              id="lng-input"
+              placeholder="-77.7389"
+              inputmode="decimal"
+            />
+          </div>
+        </div>
+        <div class="gps-status" id="gps-status"></div>
+        <button class="btn-secondary" onclick="getLocation()">
+          Get GPS Location
+        </button>
+
+        <label for="mile-input">Mile</label>
+        <input
+          type="number"
+          id="mile-input"
+          placeholder="0"
+          inputmode="numeric"
+        />
+
+        <label for="notes-input">Notes</label>
+        <input type="text" id="notes-input" placeholder="Camped near..." />
+
+        <button class="btn-primary" id="submit-btn" onclick="submitEntry()">
+          Log Entry
+        </button>
+
+        <div id="status"></div>
+
+        <button class="btn-danger" onclick="clearToken()">
+          Clear saved token
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const OWNER = "MatthewKLewis";
+      const REPO = "WheresMatt";
+      const FILE_PATH = "progress.yaml";
+      const API_BASE = "https://api.github.com";
+
+      function init() {
+        const token = localStorage.getItem("wheresmatt_token");
+        if (token) {
+          showForm();
+        } else {
+          document.getElementById("token-section").style.display = "block";
+          document.getElementById("form-section").style.display = "none";
+        }
+      }
+
+      function saveToken() {
+        const token = document.getElementById("token-input").value.trim();
+        if (!token) return;
+        localStorage.setItem("wheresmatt_token", token);
+        showForm();
+      }
+
+      function clearToken() {
+        localStorage.removeItem("wheresmatt_token");
+        document.getElementById("token-section").style.display = "block";
+        document.getElementById("form-section").style.display = "none";
+        document.getElementById("token-input").value = "";
+      }
+
+      function showForm() {
+        document.getElementById("token-section").style.display = "none";
+        document.getElementById("form-section").style.display = "block";
+
+        // Auto-fill today's date
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("date-input").value = today;
+
+        // Auto-fill GPS
+        getLocation();
+
+        // Fetch last mile from progress.yaml
+        fetchLastMile();
+      }
+
+      function getLocation() {
+        const gpsStatus = document.getElementById("gps-status");
+        if (!navigator.geolocation) {
+          gpsStatus.textContent = "Geolocation not supported by this browser.";
+          return;
+        }
+
+        gpsStatus.textContent = "Getting location...";
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            document.getElementById("lat-input").value =
+              pos.coords.latitude.toFixed(4);
+            document.getElementById("lng-input").value =
+              pos.coords.longitude.toFixed(4);
+            gpsStatus.textContent =
+              "Location updated (accuracy: " +
+              Math.round(pos.coords.accuracy) +
+              "m)";
+          },
+          (err) => {
+            gpsStatus.textContent = "Could not get location: " + err.message;
+          },
+          { enableHighAccuracy: true, timeout: 15000 }
+        );
+      }
+
+      async function fetchLastMile() {
+        try {
+          const resp = await fetch("progress.yaml");
+          const text = await resp.text();
+          // Simple parse: find last "mile:" line
+          const lines = text.trim().split("\n");
+          for (let i = lines.length - 1; i >= 0; i--) {
+            const match = lines[i].match(/^\s*mile:\s*(\d+)/);
+            if (match) {
+              document.getElementById("mile-input").value = match[1];
+              break;
+            }
+          }
+        } catch (e) {
+          // Not critical, leave blank
+        }
+      }
+
+      function showStatus(msg, type) {
+        const el = document.getElementById("status");
+        el.textContent = msg;
+        el.className = type;
+      }
+
+      async function submitEntry() {
+        const token = localStorage.getItem("wheresmatt_token");
+        if (!token) {
+          showStatus("No token saved. Please set up your token.", "error");
+          return;
+        }
+
+        const date = document.getElementById("date-input").value;
+        const lat = document.getElementById("lat-input").value.trim();
+        const lng = document.getElementById("lng-input").value.trim();
+        const mile = document.getElementById("mile-input").value.trim();
+        const notes = document.getElementById("notes-input").value.trim();
+
+        if (!date || !lat || !lng || !mile) {
+          showStatus("Please fill in date, lat, lng, and mile.", "error");
+          return;
+        }
+
+        const btn = document.getElementById("submit-btn");
+        btn.disabled = true;
+        btn.textContent = "Logging...";
+        showStatus("Fetching current file...", "info");
+
+        try {
+          // 1. Get current file content and SHA
+          const getResp = await fetch(
+            `${API_BASE}/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/vnd.github.v3+json",
+              },
+            }
+          );
+
+          if (!getResp.ok) {
+            const errData = await getResp.json();
+            throw new Error(
+              errData.message || `GitHub API error (${getResp.status})`
+            );
+          }
+
+          const fileData = await getResp.json();
+          const currentContent = atob(fileData.content.replace(/\n/g, ""));
+          const sha = fileData.sha;
+
+          // 2. Build new YAML entry
+          const newEntry =
+            `\n- date: ${date}\n` +
+            `  lat: ${parseFloat(lat)}\n` +
+            `  lng: ${parseFloat(lng)}\n` +
+            `  mile: ${parseInt(mile, 10)}\n` +
+            `  notes: ${notes || "No notes."}\n`;
+
+          const updatedContent = currentContent.trimEnd() + "\n" + newEntry;
+
+          // 3. Commit updated file
+          showStatus("Committing entry...", "info");
+          const putResp = await fetch(
+            `${API_BASE}/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`,
+            {
+              method: "PUT",
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/vnd.github.v3+json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                message: `Log: mile ${mile} on ${date}`,
+                content: btoa(updatedContent),
+                sha: sha,
+              }),
+            }
+          );
+
+          if (!putResp.ok) {
+            const errData = await putResp.json();
+            throw new Error(
+              errData.message || `GitHub API error (${putResp.status})`
+            );
+          }
+
+          showStatus(
+            "Entry logged! It may take a minute for the site to update.",
+            "success"
+          );
+          document.getElementById("notes-input").value = "";
+        } catch (err) {
+          showStatus("Error: " + err.message, "error");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Log Entry";
+        }
+      }
+
+      init();
+    </script>
+  </body>
+</html>
