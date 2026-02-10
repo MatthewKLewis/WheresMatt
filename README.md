@@ -11,5 +11,5 @@ Where's Matt is a simple web app that displays Matt's current position on the Ap
 ## How It Works
 
 - **trail.json** - GeoJSON LineString of the Appalachian Trail, built from 3,400+ GPS-surveyed centerline segments (source: ATC/NPS 2005 GPS survey, refined 2014)
-- **progress.json** - Array of dated entries with lat/lng, trail mile, and notes, updated as Matt checks in
+- **progress.yaml** - Array of dated entries with lat/lng, trail mile, and notes, updated as Matt checks in (YAML for easy phone editing)
 - **index.html** - Leaflet map that loads both files and renders the trail, progress line, and markers
