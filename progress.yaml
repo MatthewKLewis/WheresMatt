@@ -15,3 +15,9 @@
   lng: -77.75
   mile: 3
   notes: submitted by phone!
+
+- date: 2026-02-10
+  lat: 39.1458
+  lng: -76.8772
+  mile: 4
+  notes: Testing with the new log entry
