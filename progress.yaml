@@ -9,3 +9,9 @@
   lng: -77.7395
   mile: 2
   notes: Hello world test
+
+- date: 2026-05-17
+  lat: 39.33
+  lon: -77.75
+  mile: 3
+  notes: submitted by phone!
