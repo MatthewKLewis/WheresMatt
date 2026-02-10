@@ -1,25 +1,11 @@
 {
   "entries": [
     {
-      "date": "2026-03-15",
-      "lat": 34.6267,
-      "lng": -84.1938,
+      "date": "2026-05-15",
+      "lat": 39.3254,
+      "lng": -77.7389,
       "mile": 0,
-      "notes": "Starting at Springer Mountain! Weather is perfect."
-    },
-    {
-      "date": "2026-03-16",
-      "lat": 34.6806,
-      "lng": -84.1625,
-      "mile": 8,
-      "notes": "Made it to Hawk Mountain Shelter. Legs are feeling it already."
-    },
-    {
-      "date": "2026-03-17",
-      "lat": 34.7397,
-      "lng": -84.1039,
-      "mile": 16,
-      "notes": "Crossed into the Cohutta Wilderness. Beautiful views today."
+      "notes": "Starting at Harper's Ferry."
     }
   ]
 }
