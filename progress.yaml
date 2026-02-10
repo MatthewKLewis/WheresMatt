@@ -3,3 +3,9 @@
   lng: -77.7389
   mile: 0
   notes: Starting at Harper's Ferry.
+
+- date: 2026-05-16
+lat: 39.3254
+lng: -77.7389
+mile: 1
+notes: Hello world
