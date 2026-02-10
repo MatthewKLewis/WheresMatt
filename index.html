@@ -1,106 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Where's Matt - AT Thru-Hike Tracker</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div id="map"></div>
     <div id="stats">
-        <h1>Where's Matt</h1>
-        <div id="miles">Loading...</div>
-        <div id="last-update"></div>
+      <h1>Where's Matt</h1>
+      <div id="miles">Loading...</div>
+      <div id="last-update"></div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Initialize map centered on the Appalachian Trail
-        const map = L.map('map').setView([37.5, -79], 6);
+      // Initialize map centered on the Appalachian Trail
+      const map = L.map("map").setView([37.5, -79], 6);
 
-        // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+      // Add OpenStreetMap tiles
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
 
-        // Custom marker icons
-        const greenIcon = L.divIcon({
-            className: 'marker-icon marker-completed',
-            iconSize: [12, 12]
-        });
+      // Custom marker icons
+      const greenIcon = L.divIcon({
+        className: "marker-icon marker-completed",
+        iconSize: [12, 12],
+      });
 
-        const currentIcon = L.divIcon({
-            className: 'marker-icon marker-current',
-            iconSize: [16, 16]
-        });
+      const currentIcon = L.divIcon({
+        className: "marker-icon marker-current",
+        iconSize: [16, 16],
+      });
 
-        // Load trail data
-        fetch('trail.json')
-            .then(response => response.json())
-            .then(trailData => {
-                L.geoJSON(trailData, {
-                    style: {
-                        color: '#8B4513',
-                        weight: 3,
-                        opacity: 0.7
-                    }
-                }).addTo(map);
-            })
-            .catch(err => console.log('Trail data not loaded:', err));
+      // Load trail data
+      fetch("trail.json")
+        .then((response) => response.json())
+        .then((trailData) => {
+          L.geoJSON(trailData, {
+            style: {
+              color: "#8B4513",
+              weight: 3,
+              opacity: 0.7,
+            },
+          }).addTo(map);
+        })
+        .catch((err) => console.log("Trail data not loaded:", err));
 
-        // Load progress data
-        fetch('progress.json')
-            .then(response => response.json())
-            .then(data => {
-                const entries = data.entries;
+      // Load progress data
+      fetch("progress.json")
+        .then((response) => response.json())
+        .then((data) => {
+          const entries = data.entries;
 
-                if (entries.length === 0) {
-                    document.getElementById('miles').textContent = 'No entries yet';
-                    return;
-                }
+          if (entries.length === 0) {
+            document.getElementById("miles").textContent = "No entries yet";
+            return;
+          }
 
-                // Add markers for each entry
-                entries.forEach((entry, index) => {
-                    const isLatest = index === entries.length - 1;
-                    const icon = isLatest ? currentIcon : greenIcon;
+          // Add markers for each entry
+          entries.forEach((entry, index) => {
+            const isLatest = index === entries.length - 1;
+            const icon = isLatest ? currentIcon : greenIcon;
 
-                    const marker = L.marker([entry.lat, entry.lng], { icon })
-                        .addTo(map)
-                        .bindPopup(`
+            const marker = L.marker([entry.lat, entry.lng], { icon }).addTo(map)
+              .bindPopup(`
                             <strong>${entry.date}</strong><br>
                             Mile ${entry.mile}<br>
                             ${entry.notes}
                         `);
 
-                    if (isLatest) {
-                        marker.openPopup();
-                    }
-                });
+            if (isLatest) {
+              marker.openPopup();
+            }
+          });
 
-                // Draw line connecting progress points
-                if (entries.length > 1) {
-                    const progressLine = entries.map(e => [e.lat, e.lng]);
-                    L.polyline(progressLine, {
-                        color: '#228B22',
-                        weight: 4,
-                        opacity: 0.8
-                    }).addTo(map);
-                }
+          // Draw line connecting progress points
+          if (entries.length > 1) {
+            const progressLine = entries.map((e) => [e.lat, e.lng]);
+            L.polyline(progressLine, {
+              color: "#228B22",
+              weight: 4,
+              opacity: 0.8,
+            }).addTo(map);
+          }
 
-                // Update stats
-                const latest = entries[entries.length - 1];
-                document.getElementById('miles').textContent = `Mile ${latest.mile} of 2,190`;
-                document.getElementById('last-update').textContent = `Last update: ${latest.date}`;
+          // Update stats
+          const latest = entries[entries.length - 1];
+          document.getElementById("miles").textContent =
+            `Mile ${latest.mile} of 2,190`;
+          document.getElementById("last-update").textContent =
+            `Last update: ${latest.date}`;
 
-                // Center map on latest position
-                map.setView([latest.lat, latest.lng], 10);
-            })
-            .catch(err => {
-                console.error('Error loading progress:', err);
-                document.getElementById('miles').textContent = 'Error loading data';
-            });
+          // Center map on latest position
+          map.setView([latest.lat, latest.lng], 10);
+        })
+        .catch((err) => {
+          console.error("Error loading progress:", err);
+          document.getElementById("miles").textContent = "Error loading data";
+        });
     </script>
-</body>
+  </body>
 </html>
