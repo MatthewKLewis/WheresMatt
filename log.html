@@ -261,7 +261,7 @@
     <script>
       const OWNER = "MatthewKLewis";
       const REPO = "WheresMatt";
-      const FILE_PATH = "progress.yaml";
+      const FILE_PATH = "progress.json";
       const API_BASE = "https://api.github.com";
 
       function init() {
@@ -299,7 +299,7 @@
         // Auto-fill GPS
         getLocation();
 
-        // Fetch last mile from progress.yaml
+        // Fetch last mile from progress.json
         fetchLastMile();
       }
 
@@ -331,16 +331,11 @@
 
       async function fetchLastMile() {
         try {
-          const resp = await fetch("progress.yaml");
-          const text = await resp.text();
-          // Simple parse: find last "mile:" line
-          const lines = text.trim().split("\n");
-          for (let i = lines.length - 1; i >= 0; i--) {
-            const match = lines[i].match(/^\s*mile:\s*(\d+)/);
-            if (match) {
-              document.getElementById("mile-input").value = match[1];
-              break;
-            }
+          const resp = await fetch("progress.json");
+          const entries = await resp.json();
+          if (entries.length > 0) {
+            document.getElementById("mile-input").value =
+              entries[entries.length - 1].mile;
           }
         } catch (e) {
           // Not critical, leave blank
@@ -399,15 +394,17 @@
           const currentContent = atob(fileData.content.replace(/\n/g, ""));
           const sha = fileData.sha;
 
-          // 2. Build new YAML entry
-          const newEntry =
-            `\n- date: ${date}\n` +
-            `  lat: ${parseFloat(lat)}\n` +
-            `  lng: ${parseFloat(lng)}\n` +
-            `  mile: ${parseInt(mile, 10)}\n` +
-            `  notes: ${notes || "No notes."}\n`;
+          // 2. Build new JSON entry
+          const entries = JSON.parse(currentContent);
+          entries.push({
+            date: date,
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
+            mile: parseInt(mile, 10),
+            notes: notes || "No notes.",
+          });
 
-          const updatedContent = currentContent.trimEnd() + "\n" + newEntry;
+          const updatedContent = JSON.stringify(entries, null, 2) + "\n";
 
           // 3. Commit updated file
           showStatus("Committing entry...", "info");
