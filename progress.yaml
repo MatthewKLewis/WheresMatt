@@ -1,27 +1,3 @@
-- date: 2026-05-15
-  lat: 39.3254
-  lng: -77.7389
-  mile: 0
-  notes: Starting at Harpers Ferry.
-
-- date: 2026-05-16
-  lat: 39.3260
-  lng: -77.7395
-  mile: 2
-  notes: Hello world test
-
-- date: 2026-05-17
-  lat: 39.33
-  lng: -77.75
-  mile: 3
-  notes: submitted by phone!
-
-- date: 2026-02-10
-  lat: 39.1458
-  lng: -76.8772
-  mile: 4
-  notes: Testing with the new log entry
-
 - date: 2026-02-10
   lat: 39.1351
   lng: -76.8657
