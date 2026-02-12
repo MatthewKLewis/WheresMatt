@@ -12,5 +12,13 @@
     "lng": -76.8772,
     "mile": 0,
     "notes": "Home"
+  },
+  {
+    "date": "2026-02-12",
+    "time": "08:52",
+    "lat": 39.1447,
+    "lng": -76.8836,
+    "mile": 1,
+    "notes": "Testing longer notes. \n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
   }
 ]
