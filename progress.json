@@ -5,5 +5,12 @@
     "lng": -76.8657,
     "mile": 5,
     "notes": "Test from phone FINAL!"
+  },
+  {
+    "date": "2026-02-11",
+    "lat": 39.1459,
+    "lng": -76.8772,
+    "mile": 0,
+    "notes": "Home"
   }
 ]
