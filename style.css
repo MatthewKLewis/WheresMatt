@@ -140,15 +140,11 @@ body {
 
 @media (max-width: 600px) {
     #timeline {
-        position: relative;
-        width: 100%;
-        max-height: 40vh;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        display: none;
     }
 
     #map {
         left: 0;
-        top: 40vh;
     }
 
     #stats {
