@@ -62,7 +62,8 @@
       input[type="number"],
       input[type="date"],
       input[type="time"],
-      input[type="password"] {
+      input[type="password"],
+      textarea {
         width: 100%;
         padding: 10px 12px;
         border: 1px solid #ccc;
@@ -71,7 +72,12 @@
         font-family: inherit;
       }
 
-      input:focus {
+      textarea {
+        resize: vertical;
+      }
+
+      input:focus,
+      textarea:focus {
         outline: none;
         border-color: #2d5016;
         box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.2);
@@ -253,7 +259,7 @@
         />
 
         <label for="notes-input">Notes</label>
-        <input type="text" id="notes-input" placeholder="Camped near..." />
+        <textarea id="notes-input" rows="4" placeholder="Camped near..."></textarea>
 
         <button class="btn-primary" id="submit-btn" onclick="submitEntry()">
           Log Entry

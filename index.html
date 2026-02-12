@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div id="timeline">
+      <h2>Timeline</h2>
+      <div id="timeline-entries">Loading...</div>
+    </div>
     <div id="map"></div>
     <div id="stats">
       <h1>Where's Matt</h1>
@@ -60,8 +64,11 @@
         .then((entries) => {
           if (entries.length === 0) {
             document.getElementById("miles").textContent = "No entries yet";
+            document.getElementById("timeline-entries").textContent = "No entries yet.";
             return;
           }
+
+          const markers = [];
 
           // Add markers for each entry
           entries.forEach((entry, index) => {
@@ -74,6 +81,8 @@
                             Mile ${entry.mile}<br>
                             ${entry.notes}
                         `);
+
+            markers.push(marker);
 
             if (isLatest) {
               marker.openPopup();
@@ -96,6 +105,41 @@
             `Mile ${latest.mile} of 2,190`;
           document.getElementById("last-update").textContent =
             `Last update: ${latest.date}`;
+
+          // Build timeline (newest first)
+          const timelineEl = document.getElementById("timeline-entries");
+          timelineEl.innerHTML = "";
+          for (let i = entries.length - 1; i >= 0; i--) {
+            const entry = entries[i];
+            const isLatest = i === entries.length - 1;
+
+            const card = document.createElement("div");
+            card.className = "timeline-card" + (isLatest ? " timeline-card-current" : "");
+
+            const header = document.createElement("div");
+            header.className = "timeline-card-header";
+            header.textContent = entry.date + (entry.time ? " " + entry.time : "");
+
+            const mile = document.createElement("div");
+            mile.className = "timeline-card-mile";
+            mile.textContent = "Mile " + entry.mile;
+
+            const notes = document.createElement("div");
+            notes.className = "timeline-card-notes";
+            notes.textContent = entry.notes;
+
+            card.appendChild(header);
+            card.appendChild(mile);
+            card.appendChild(notes);
+
+            const idx = i;
+            card.addEventListener("click", () => {
+              map.setView([entries[idx].lat, entries[idx].lng], 13);
+              markers[idx].openPopup();
+            });
+
+            timelineEl.appendChild(card);
+          }
 
           // Center map on latest position
           map.setView([latest.lat, latest.lng], 10);
