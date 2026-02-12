@@ -61,6 +61,7 @@
       input[type="text"],
       input[type="number"],
       input[type="date"],
+      input[type="time"],
       input[type="password"] {
         width: 100%;
         padding: 10px 12px;
@@ -207,8 +208,16 @@
       <div id="form-section" style="display: none">
         <h2>New Entry</h2>
 
-        <label for="date-input">Date</label>
-        <input type="date" id="date-input" />
+        <div class="row">
+          <div>
+            <label for="date-input">Date</label>
+            <input type="date" id="date-input" />
+          </div>
+          <div>
+            <label for="time-input">Time</label>
+            <input type="time" id="time-input" />
+          </div>
+        </div>
 
         <div class="row">
           <div>
@@ -292,9 +301,10 @@
         document.getElementById("token-section").style.display = "none";
         document.getElementById("form-section").style.display = "block";
 
-        // Auto-fill today's date
-        const today = new Date().toISOString().split("T")[0];
-        document.getElementById("date-input").value = today;
+        // Auto-fill today's date and current time
+        const now = new Date();
+        document.getElementById("date-input").value = now.toISOString().split("T")[0];
+        document.getElementById("time-input").value = now.toTimeString().slice(0, 5);
 
         // Auto-fill GPS
         getLocation();
@@ -356,13 +366,14 @@
         }
 
         const date = document.getElementById("date-input").value;
+        const time = document.getElementById("time-input").value;
         const lat = document.getElementById("lat-input").value.trim();
         const lng = document.getElementById("lng-input").value.trim();
         const mile = document.getElementById("mile-input").value.trim();
         const notes = document.getElementById("notes-input").value.trim();
 
-        if (!date || !lat || !lng || !mile) {
-          showStatus("Please fill in date, lat, lng, and mile.", "error");
+        if (!date || !time || !lat || !lng || !mile) {
+          showStatus("Please fill in date, time, lat, lng, and mile.", "error");
           return;
         }
 
@@ -398,6 +409,7 @@
           const entries = JSON.parse(currentContent);
           entries.push({
             date: date,
+            time: time,
             lat: parseFloat(lat),
             lng: parseFloat(lng),
             mile: parseInt(mile, 10),
@@ -418,7 +430,7 @@
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                message: `Log: mile ${mile} on ${date}`,
+                message: `Log: mile ${mile} on ${date} at ${time}`,
                 content: btoa(updatedContent),
                 sha: sha,
               }),

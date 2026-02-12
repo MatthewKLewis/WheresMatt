@@ -70,7 +70,7 @@
 
             const marker = L.marker([entry.lat, entry.lng], { icon }).addTo(map)
               .bindPopup(`
-                            <strong>${entry.date}</strong><br>
+                            <strong>${entry.date}${entry.time ? " " + entry.time : ""}</strong><br>
                             Mile ${entry.mile}<br>
                             ${entry.notes}
                         `);
