@@ -250,6 +250,15 @@
           Get GPS Location
         </button>
 
+        <label for="trail-input">Trail</label>
+        <input
+          type="text"
+          id="trail-input"
+          placeholder="AT"
+          list="trail-options"
+        />
+        <datalist id="trail-options"></datalist>
+
         <label for="mile-input">Mile</label>
         <input
           type="number"
@@ -349,10 +358,31 @@
         try {
           const resp = await fetch("progress.json");
           const entries = await resp.json();
-          if (entries.length > 0) {
-            document.getElementById("mile-input").value =
-              entries[entries.length - 1].mile;
+
+          // Populate trail autocomplete options
+          const trailNames = [...new Set(entries.map((e) => e.trail).filter(Boolean))];
+          const datalist = document.getElementById("trail-options");
+          datalist.innerHTML = trailNames.map((t) => `<option value="${t}">`).join("");
+
+          // Set last trail used
+          const lastEntry = entries[entries.length - 1];
+          if (lastEntry?.trail) {
+            document.getElementById("trail-input").value = lastEntry.trail;
           }
+
+          // Update mile when trail changes
+          const trailInput = document.getElementById("trail-input");
+          const updateMileForTrail = () => {
+            const selectedTrail = trailInput.value.trim();
+            const trailEntries = entries.filter((e) => e.trail === selectedTrail);
+            const last = trailEntries.length > 0 ? trailEntries[trailEntries.length - 1] : lastEntry;
+            if (last) document.getElementById("mile-input").value = last.mile;
+          };
+          trailInput.addEventListener("change", updateMileForTrail);
+          trailInput.addEventListener("input", updateMileForTrail);
+
+          // Set initial mile value
+          updateMileForTrail();
         } catch (e) {
           // Not critical, leave blank
         }
@@ -375,11 +405,12 @@
         const time = document.getElementById("time-input").value;
         const lat = document.getElementById("lat-input").value.trim();
         const lng = document.getElementById("lng-input").value.trim();
+        const trail = document.getElementById("trail-input").value.trim();
         const mile = document.getElementById("mile-input").value.trim();
         const notes = document.getElementById("notes-input").value.trim();
 
-        if (!date || !time || !lat || !lng || !mile) {
-          showStatus("Please fill in date, time, lat, lng, and mile.", "error");
+        if (!date || !time || !lat || !lng || !trail || !mile) {
+          showStatus("Please fill in date, time, lat, lng, trail, and mile.", "error");
           return;
         }
 
@@ -418,6 +449,7 @@
             time: time,
             lat: parseFloat(lat),
             lng: parseFloat(lng),
+            trail: trail,
             mile: parseInt(mile, 10),
             notes: notes || "No notes.",
           });
@@ -436,7 +468,7 @@
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                message: `Log: mile ${mile} on ${date} at ${time}`,
+                message: `Log: ${trail} mile ${mile} on ${date} at ${time}`,
                 content: btoa(updatedContent),
                 sha: sha,
               }),

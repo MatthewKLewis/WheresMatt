@@ -33,16 +33,7 @@
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      // Custom marker icons
-      const greenIcon = L.divIcon({
-        className: "marker-icon marker-completed",
-        iconSize: [12, 12],
-      });
-
-      const currentIcon = L.divIcon({
-        className: "marker-icon marker-current",
-        iconSize: [16, 16],
-      });
+      const TRAIL_COLORS = ["#228B22", "#1565C0", "#C62828", "#6A0DAD", "#E65100", "#00838F"];
 
       // Load trail data
       fetch("trail.json")
@@ -68,57 +59,91 @@
             return;
           }
 
-          const markers = [];
-
-          // Add markers for each entry
+          // Group entries by trail name, preserving original indices
+          const trailMap = {};
           entries.forEach((entry, index) => {
-            const isLatest = index === entries.length - 1;
-            const icon = isLatest ? currentIcon : greenIcon;
+            const name = entry.trail || "Unknown";
+            if (!trailMap[name]) trailMap[name] = [];
+            trailMap[name].push({ entry, index });
+          });
 
-            const marker = L.marker([entry.lat, entry.lng], { icon }).addTo(map)
-              .bindPopup(`
-                            <strong>${entry.date}${entry.time ? " " + entry.time : ""}</strong><br>
-                            Mile ${entry.mile}<br>
-                            ${entry.notes}
-                        `, { maxHeight: 200 });
+          const trailNames = Object.keys(trailMap);
+          const colorMap = {};
+          trailNames.forEach((name, i) => {
+            colorMap[name] = TRAIL_COLORS[i % TRAIL_COLORS.length];
+          });
 
-            markers.push(marker);
+          // markers array indexed by original entry index
+          const markers = new Array(entries.length);
 
-            if (isLatest) {
-              marker.openPopup();
+          trailNames.forEach((trailName) => {
+            const color = colorMap[trailName];
+            const trailEntries = trailMap[trailName];
+
+            trailEntries.forEach(({ entry, index }, i) => {
+              const isLatest = i === trailEntries.length - 1;
+              const size = isLatest ? 16 : 12;
+
+              const icon = L.divIcon({
+                className: "marker-icon",
+                html: `<div class="marker-dot${isLatest ? " marker-dot-current" : ""}" style="width:${size}px;height:${size}px;background:${color}"></div>`,
+                iconSize: [size, size],
+                iconAnchor: [size / 2, size / 2],
+              });
+
+              const marker = L.marker([entry.lat, entry.lng], { icon }).addTo(map)
+                .bindPopup(`
+                  <strong>${entry.date}${entry.time ? " " + entry.time : ""}</strong><br>
+                  <span style="color:${color};font-weight:600">${trailName}</span> — Mile ${entry.mile}<br>
+                  ${entry.notes}
+                `, { maxHeight: 200 });
+
+              markers[index] = marker;
+              if (isLatest) marker.openPopup();
+            });
+
+            // Draw progress line for this trail
+            if (trailEntries.length > 1) {
+              const line = trailEntries.map(({ entry }) => [entry.lat, entry.lng]);
+              L.polyline(line, { color, weight: 4, opacity: 0.8 }).addTo(map);
             }
           });
 
-          // Draw line connecting progress points
-          if (entries.length > 1) {
-            const progressLine = entries.map((e) => [e.lat, e.lng]);
-            L.polyline(progressLine, {
-              color: "#228B22",
-              weight: 4,
-              opacity: 0.8,
-            }).addTo(map);
-          }
-
-          // Update stats
+          // Update stats with most recent entry
           const latest = entries[entries.length - 1];
-          document.getElementById("miles").textContent =
-            `Mile ${latest.mile} of 2,190`;
+          const latestTrail = latest.trail || "Unknown";
+          const latestColor = colorMap[latestTrail];
+          document.getElementById("miles").innerHTML =
+            `Mile ${latest.mile} — <span style="color:${latestColor}">${latestTrail}</span>`;
           document.getElementById("last-update").textContent =
             `Last update: ${latest.date}`;
 
-          // Build timeline (newest first)
+          // Build timeline — all entries sorted newest-first
           const timelineEl = document.getElementById("timeline-entries");
           timelineEl.innerHTML = "";
-          for (let i = entries.length - 1; i >= 0; i--) {
+          const sortedIndices = [...entries.keys()].sort((a, b) => {
+            const da = entries[a].date + (entries[a].time || "");
+            const db = entries[b].date + (entries[b].time || "");
+            return db.localeCompare(da);
+          });
+
+          sortedIndices.forEach((i) => {
             const entry = entries[i];
-            const isLatest = i === entries.length - 1;
+            const trailName = entry.trail || "Unknown";
+            const color = colorMap[trailName];
 
             const card = document.createElement("div");
-            card.className = "timeline-card" + (isLatest ? " timeline-card-current" : "");
+            card.className = "timeline-card";
+            card.style.borderLeft = `3px solid ${color}`;
 
             const header = document.createElement("div");
             header.className = "timeline-card-header";
             header.textContent = entry.date + (entry.time ? " " + entry.time : "");
+
+            const badge = document.createElement("div");
+            badge.className = "timeline-card-trail";
+            badge.textContent = trailName;
+            badge.style.color = color;
 
             const mile = document.createElement("div");
             mile.className = "timeline-card-mile";
@@ -129,17 +154,17 @@
             notes.textContent = entry.notes;
 
             card.appendChild(header);
+            card.appendChild(badge);
             card.appendChild(mile);
             card.appendChild(notes);
 
-            const idx = i;
             card.addEventListener("click", () => {
-              map.setView([entries[idx].lat, entries[idx].lng], 13);
-              markers[idx].openPopup();
+              map.setView([entries[i].lat, entries[i].lng], 13);
+              if (markers[i]) markers[i].openPopup();
             });
 
             timelineEl.appendChild(card);
-          }
+          });
 
           // Center map on latest position
           map.setView([latest.lat, latest.lng], 10);
