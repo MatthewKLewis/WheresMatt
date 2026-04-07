@@ -1,6 +1,6 @@
 [
   {
-    "date": "2026-05-01",
+    "date": "2026-04-01",
     "lat": 39.3254,
     "lng": -77.7389,
     "mile": 0,
@@ -8,12 +8,11 @@
     "notes": "Home"
   },
   {
-    "date": "2026-04-13",
-    "time": "14:18",
-    "lat": 34.2276,
-    "lng": 135.1718,
-    "trail": "Kumano Kodo",
-    "mile": 0,
-    "notes": "3 Weeks til hike start"
+    "date": "2026-04-07",
+    "lat": 39.3253,
+    "lng": -77.7388,
+    "mile": 0.1,
+    "trail": "AT",
+    "notes": "Still Home"
   }
 ]
