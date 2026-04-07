@@ -20,6 +20,7 @@
       <h1>Where's Matt</h1>
       <div id="miles">Loading...</div>
       <div id="last-update"></div>
+      <div id="avg-pace"></div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -117,6 +118,20 @@
             `Mile ${latest.mile} — <span style="color:${latestColor}">${latestTrail}</span>`;
           document.getElementById("last-update").textContent =
             `Last update: ${latest.date}`;
+
+          // Avg miles/day for the latest trail
+          const latestTrailEntries = trailMap[latestTrail];
+          if (latestTrailEntries && latestTrailEntries.length >= 2) {
+            const first = latestTrailEntries[0].entry;
+            const last = latestTrailEntries[latestTrailEntries.length - 1].entry;
+            const daysDiff = (new Date(last.date) - new Date(first.date)) / 86400000;
+            const milesDiff = last.mile - first.mile;
+            if (daysDiff > 0 && milesDiff > 0) {
+              const avgPace = (milesDiff / daysDiff).toFixed(1);
+              document.getElementById("avg-pace").textContent =
+                `${avgPace} mi/day avg`;
+            }
+          }
 
           // Build timeline — all entries sorted newest-first
           const timelineEl = document.getElementById("timeline-entries");

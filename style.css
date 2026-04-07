@@ -114,6 +114,12 @@ body {
     margin-top: 4px;
 }
 
+#avg-pace {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 2px;
+}
+
 .marker-icon {
     background: none !important;
     border: none !important;
