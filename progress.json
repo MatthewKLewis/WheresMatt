@@ -1,18 +1,10 @@
 [
   {
-    "date": "2026-04-01",
-    "lat": 39.3254,
-    "lng": -77.7389,
-    "mile": 0,
-    "trail": "AT",
-    "notes": "Home"
-  },
-  {
-    "date": "2026-04-07",
+    "date": "2026-05-03",
     "lat": 39.3253,
     "lng": -77.7388,
     "mile": 0.1,
     "trail": "AT",
-    "notes": "Still Home"
+    "notes": "Start"
   }
 ]
