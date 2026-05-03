@@ -7,5 +7,14 @@
     "trail": "AT NoBo",
     "mile": 1023,
     "notes": "Renamed Trail to NoBo (and will use SoBo after the pivot)"
+  },
+  {
+    "date": "2026-05-03",
+    "time": "14:59",
+    "lat": 39.3333,
+    "lng": -77.6189,
+    "trail": "AT NoBo",
+    "mile": 1030,
+    "notes": "Stopping at Ed Garvey shelter for lunch."
   }
 ]
