@@ -2,10 +2,10 @@
   {
     "date": "2026-05-03",
     "time": "06:15",
-    "lat": 39.3264,
-    "lng": -77.7063,
+    "lat": 39.327778,
+    "lng": -77.746389,
     "trail": "AT NoBo",
-    "mile": 1025,
+    "mile": 1023,
     "notes": "Renamed Trail to NoBo (and will use SoBo after the pivot)"
   }
 ]
