@@ -223,5 +223,14 @@
     "trail": "AT NoBo",
     "mile": 1253,
     "notes": "There's a difference between the mileage on AWOL vs FarOut."
+  },
+  {
+    "date": "2026-05-19",
+    "time": "10:48",
+    "lat": 40.7568,
+    "lng": -75.6174,
+    "trail": "AT NoBo",
+    "mile": 1261,
+    "notes": "Getting some shade in the George Outerbridge hut."
   }
 ]
