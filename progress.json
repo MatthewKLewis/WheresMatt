@@ -358,5 +358,14 @@
     "trail": "AT NoBo",
     "mile": 1444,
     "notes": "Lunch in shelter. Cold and drizzly."
+  },
+  {
+    "date": "2026-05-30",
+    "time": "17:20",
+    "lat": 41.5856,
+    "lng": -73.5931,
+    "trail": "AT NoBo",
+    "mile": 1455,
+    "notes": "Camping at Tony's Deli"
   }
 ]
