@@ -475,5 +475,14 @@
     "trail": "AT NoBo",
     "mile": 15932,
     "notes": "No notes."
+  },
+  {
+    "date": "2026-06-07",
+    "time": "17:07",
+    "lat": 42.6667,
+    "lng": -73.169,
+    "trail": "AT NoBoa8888888888888888rri",
+    "mile": 1.5933622522222263e+28,
+    "notes": "No notes."
   }
 ]
