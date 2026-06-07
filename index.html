@@ -127,7 +127,7 @@
             const daysDiff = (new Date(last.date) - new Date(first.date)) / 86400000;
             const milesDiff = last.mile - first.mile;
             if (daysDiff > 0 && milesDiff > 0) {
-              const avgPace = (milesDiff / daysDiff).toFixed(1);
+              const avgPace = (milesDiff / daysDiff).toFixed(2);
               document.getElementById("avg-pace").textContent =
                 `${avgPace} mi/day avg`;
             }
