@@ -754,5 +754,14 @@
     "trail": "AT NoBo II",
     "mile": 2197,
     "notes": "Erebor"
+  },
+  {
+    "date": "2026-08-16",
+    "time": "10:37",
+    "lat": 39.3153,
+    "lng": -77.7387,
+    "trail": "AT SoBo",
+    "mile": 2197,
+    "notes": "And South."
   }
 ]
