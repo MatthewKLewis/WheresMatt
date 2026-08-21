@@ -844,5 +844,14 @@
     "trail": "AT SoBo",
     "mile": 1275,
     "notes": "Another cowboy camp on top of Hazeltop Mountain."
+  },
+  {
+    "date": "2026-08-21",
+    "time": "09:44",
+    "lat": 38.4324,
+    "lng": -78.481,
+    "trail": "AT SoBo",
+    "mile": 1280,
+    "notes": "Lewis mtn campground."
   }
 ]
