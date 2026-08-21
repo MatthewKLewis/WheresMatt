@@ -853,5 +853,14 @@
     "trail": "AT SoBo",
     "mile": 1280,
     "notes": "Lewis mtn campground."
+  },
+  {
+    "date": "2026-08-21",
+    "time": "11:43",
+    "lat": 38.3784,
+    "lng": -78.5143,
+    "trail": "AT SoBo",
+    "mile": 1284,
+    "notes": "Lunch at South River Picnic Grounds."
   }
 ]
