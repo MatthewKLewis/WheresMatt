@@ -943,5 +943,14 @@
     "trail": "AT SoBo II",
     "mile": 1420,
     "notes": "Petites Gap"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "16:15",
+    "lat": 37.5676,
+    "lng": -79.6522,
+    "trail": "AT SoBo II",
+    "mile": 1425,
+    "notes": "Apple Orchard Mtn."
   }
 ]
