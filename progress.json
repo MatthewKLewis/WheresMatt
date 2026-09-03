@@ -925,5 +925,14 @@
     "trail": "AT SoBo",
     "mile": 1401,
     "notes": "Bluff mtn"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "11:16",
+    "lat": 37.5975248,
+    "lng": -79.391509,
+    "trail": "AT SoBo II",
+    "mile": 1410,
+    "notes": "James River restart"
   }
 ]
