@@ -934,5 +934,14 @@
     "trail": "AT SoBo II",
     "mile": 1410,
     "notes": "James River restart"
+  },
+  {
+    "date": "2026-09-03",
+    "time": "13:58",
+    "lat": 37.0991,
+    "lng": -79.2926,
+    "trail": "AT SoBo II",
+    "mile": 1420,
+    "notes": "Petites Gap"
   }
 ]
