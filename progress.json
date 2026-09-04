@@ -952,5 +952,14 @@
     "trail": "AT SoBo II",
     "mile": 1430,
     "notes": "Cornelius Creek Shelter. Worried about water sources tomorrow!"
+  },
+  {
+    "date": "2026-09-04",
+    "time": "11:35",
+    "lat": 37.5135,
+    "lng": -79.6399,
+    "trail": "AT SoBo II",
+    "mile": 1443,
+    "notes": "Cove mountain shelter. Another hot dry day."
   }
 ]
