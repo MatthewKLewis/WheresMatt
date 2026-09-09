@@ -1033,5 +1033,14 @@
     "trail": "AT SoBo III",
     "mile": 1595,
     "notes": "Eleven miles to the next deli."
+  },
+  {
+    "date": "2026-09-09",
+    "time": "14:40",
+    "lat": 37.1351,
+    "lng": -81.1384,
+    "trail": "AT SoBo III",
+    "mile": 1606,
+    "notes": "Had a hamburger and some free applesauce."
   }
 ]
