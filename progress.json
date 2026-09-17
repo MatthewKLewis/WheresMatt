@@ -1150,5 +1150,14 @@
     "trail": "AT SoBo III",
     "mile": 1749,
     "notes": "Aqua blazing Lake Watauga today."
+  },
+  {
+    "date": "2026-09-17",
+    "time": "12:34",
+    "lat": 36.3243,
+    "lng": -82.0976,
+    "trail": "AT SoBo III",
+    "mile": 1759,
+    "notes": "Best guess equivalent mileage to AT. But I'm on a boat in the Watauga!"
   }
 ]
