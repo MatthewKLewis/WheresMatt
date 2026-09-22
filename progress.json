@@ -1222,5 +1222,14 @@
     "trail": "AT SoBo III",
     "mile": 1811,
     "notes": "Yellow Mtn Gap."
+  },
+  {
+    "date": "2026-09-22",
+    "time": "04:18",
+    "lat": 36.1365244,
+    "lng": -82.1410277,
+    "trail": "AT SoBo III",
+    "mile": 1824,
+    "notes": "Hughes Gap."
   }
 ]
