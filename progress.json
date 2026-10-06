@@ -1366,5 +1366,14 @@
     "trail": "AT SoBo III",
     "mile": 2083,
     "notes": "Wayah Gap."
+  },
+  {
+    "date": "2026-10-05",
+    "time": "17:31",
+    "lat": 34.800574205310426,
+    "lng": -83.7426541926447,
+    "trail": "AT SoBo III",
+    "mile": 2145,
+    "notes": "Unicoi"
   }
 ]
